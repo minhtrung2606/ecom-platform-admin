@@ -1,0 +1,12 @@
+.left-sidebar-nav {
+  position: relative;
+}
+
+.left-sidebar-nav ul {
+  margin: 0;
+  padding: 0;
+}
+
+.left-sidebar-nav li {
+  list-style-type: none;
+}

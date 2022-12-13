@@ -1,0 +1,24 @@
+.non-decorated-nav-link {
+  color: #333333;
+  text-decoration: none;
+}
+
+.non-decorated-nav-link:hover {
+  color: #333333;
+}
+
+.non-decorated-nav-link.active {
+  color: #333333;
+  transition: all 150ms ease-in-out;
+}
+
+.non-decorated-nav-link.sidebar-nav {
+  display: block;
+  font-size: 0.875em;
+  padding: .75rem 1rem;
+}
+
+.non-decorated-nav-link.sidebar-nav.active {
+  background: #2070EF;
+  color: #fff;
+}

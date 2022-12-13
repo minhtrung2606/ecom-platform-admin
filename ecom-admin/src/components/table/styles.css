@@ -1,0 +1,9 @@
+.table {
+  color: #333;
+  max-width: 100rem;
+}
+
+td {
+  font-size: 0.875em;
+  vertical-align: middle;
+}

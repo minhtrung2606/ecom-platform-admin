@@ -1,0 +1,9 @@
+.base-badge {
+  font-size: .875em;
+  font-weight: normal;
+}
+
+.base-badge.standard {
+  background:#EAEAEA;
+  color:#1454B8;
+}
