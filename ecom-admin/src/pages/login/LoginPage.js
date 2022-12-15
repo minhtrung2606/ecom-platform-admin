@@ -20,9 +20,9 @@ const LoginPage = () => {
     payload: { email, password },
   }), [sendApi]);
 
-  // if (isSuccess) {
-  //   return (<Navigate to="/" />);
-  // }
+  if (isSuccess) {
+    return (<Navigate to="/" />);
+  }
 
   return (
     <div id="login-page" className={loginPageBtClasses}>
