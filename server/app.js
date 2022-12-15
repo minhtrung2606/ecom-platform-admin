@@ -3,6 +3,7 @@ import session from 'express-session';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import { registerApiRoutesToApp } from './routes';
 
 const app = express();
 
@@ -25,6 +26,8 @@ app.get('/api/v1/ping', (req, res) => res.json({
   isSuccess: true,
   msg: 'pong',
 }));
+
+registerApiRoutesToApp(app);
 
 // Only serve ReactJS as ecom admin
 app.use((req, res, next) => {
