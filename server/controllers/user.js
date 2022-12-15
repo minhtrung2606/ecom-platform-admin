@@ -18,12 +18,13 @@ const getLoggedInUserFromSession = (req, res) => {
     });
     return;
   }
-  const { pk, email } = loggedInUser || {};
+  const { pk, email, name } = loggedInUser || {};
   res.json({
     isSuccess: true,
     data: {
       pk,
       email,
+      name,
     },
   });
 };
