@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import UserDao from '../dao/user';
 import EncryptorLib from '../libs/encryptor';
 import SessionLib from '../libs/sessions';
+import UserServices from '../services/user';
 
 /**
  * @param {Request} req
@@ -52,6 +53,14 @@ const login = async (req, res) => {
     res.json({
       isSuccess: false,
       msg: 'User not found',
+    });
+    return;
+  }
+
+  if (!UserServices.allowUserToLogin(user)) {
+    res.json({
+      isSuccess: false,
+      msg: 'User is not allowed to login. Contact system administrator for more information.',
     });
     return;
   }
