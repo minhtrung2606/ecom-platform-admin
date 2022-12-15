@@ -1,12 +1,8 @@
 import { Router } from 'express';
+import UserController from '../../../../controllers/users';
 
 const UserV1API = Router();
 
-UserV1API.get('/me', (req, res) => res.json({
-  isSuccess: true,
-  data: {
-    email: 'admin@domain.com',
-  },
-}));
+UserV1API.get('/me', UserController.getLoggedInUserFromSession);
 
 export default UserV1API;
