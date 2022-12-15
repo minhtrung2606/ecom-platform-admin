@@ -7,6 +7,29 @@ import CategoryDao from '../dao/category';
  *
  * @returns
  */
+const getCategories = async (req, res) => {
+  try {
+    const cats = await CategoryDao.getCategories();
+    res.json({
+      isSuccess: true,
+      data: cats,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500);
+    res.json({
+      isSuccess: false,
+      msg: 'An error occur when getting categories',
+    });
+  }
+};
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns
+ */
 const newCategory = async (req, res) => {
   try {
     const newlyInsertedPk = await CategoryDao.newCategory();
@@ -102,6 +125,7 @@ const deleteCategories = async (req, res) => {
 };
 
 const CategoryController = {
+  getCategories,
   newCategory,
   updateCategory,
   deleteCategories,

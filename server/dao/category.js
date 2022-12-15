@@ -1,6 +1,12 @@
 import DBLib from '../libs/db';
 import DBUtil from '../utils/db';
 
+const getCategories = async () => {
+  const query = 'select * from categories order by name';
+  const [cats] = await DBLib.execute(query);
+  return cats;
+};
+
 /**
  *
  * @param {number} pk
@@ -65,6 +71,7 @@ const deleteCategoriesByPks = async (pks) => {
 };
 
 const CategoryDao = {
+  getCategories,
   getCategoryByPk,
   newCategory,
   updateCategoryByPk,
