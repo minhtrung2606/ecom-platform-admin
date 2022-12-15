@@ -64,7 +64,39 @@ const updateCategory = async (req, res) => {
     res.status(500);
     res.json({
       isSuccess: false,
-      msg: 'An error occur when creating a new category',
+      msg: 'An error occur when updating given category',
+    });
+  }
+};
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns
+ */
+const deleteCategories = async (req, res) => {
+  try {
+    const { pks } = req.body;
+
+    if (!pks || pks.length === 0) {
+      res.json({
+        isSuccess: false,
+        msg: 'Cannot delete invalid categories',
+      });
+      return;
+    }
+
+    await CategoryDao.deleteCategoriesByPks(pks);
+    res.json({
+      isSuccess: true,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500);
+    res.json({
+      isSuccess: false,
+      msg: 'An error occur when deleting given categories',
     });
   }
 };
@@ -72,6 +104,7 @@ const updateCategory = async (req, res) => {
 const CategoryController = {
   newCategory,
   updateCategory,
+  deleteCategories,
 };
 
 export default CategoryController;

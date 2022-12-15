@@ -22,6 +22,12 @@ const newCategory = async () => {
   return result.insertId;
 };
 
+/**
+ *
+ * @param {number} pk
+ * @param {{ name, description, slug }} category
+ * @returns
+ */
 const updateCategoryByPk = async (pk, category) => {
   const {
     name,
@@ -47,10 +53,22 @@ const updateCategoryByPk = async (pk, category) => {
   return result.affectedRows === 1;
 };
 
+/**
+ *
+ * @param {array} pks
+ */
+const deleteCategoriesByPks = async (pks) => {
+  const pkArr = pks.join(',');
+  const query = `delete from categories where pk in (${pkArr})`;
+  await DBLib.execute(query);
+  return true;
+};
+
 const CategoryDao = {
   getCategoryByPk,
   newCategory,
   updateCategoryByPk,
+  deleteCategoriesByPks,
 };
 
 export default CategoryDao;
