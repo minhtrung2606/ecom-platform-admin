@@ -14,20 +14,17 @@ const getProducts = async (req, res) => {
     const { inclCats } = req.query;
     const products = await ProductDao.getProducts();
 
-    let assocCats = {};
+    let catMapping = {};
     if (+inclCats === 1) {
       const productPks = products.map(({ pk }) => pk);
-      assocCats = await CategoryController.getCategoriesByProductPks(productPks);
+      catMapping = await CategoryController.getCategoriesByProductPks(productPks);
     }
 
     const productsToBeSent = products?.map(
       product => ({
         ...ProductUtil.processProductObjectToBeSent(product),
         rel: {
-          cats: {
-            ...assocCats[product.pk],
-            productPk: undefined, // exclude unused prop
-          },
+          cats: catMapping[product.pk],
         },
       }),
     )

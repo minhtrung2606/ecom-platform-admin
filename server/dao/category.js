@@ -40,10 +40,22 @@ const getCategoriesByProductPks = async (pks) => BaseDao.exec(
       order by cp.productPk, c.name`;
     const [assocCats] = await conn.execute(query, pks);
     return assocCats.reduce(
-      (catMapping, assocCats) => {
+      (catMapping, assocCat) => {
+        if (!catMapping[assocCat.productPk]) {
+          return {
+            ...catMapping,
+            [assocCat.productPk]: [{
+              ...assocCat,
+              productPk: undefined,
+            }],
+          };
+        }
         return {
           ...catMapping,
-          [assocCats.productPk]: assocCats,
+          [assocCat.productPk]: catMapping[assocCat.productPk].concat({
+            ...assocCat,
+            productPk: undefined,
+          }),
         };
       },
       {},
