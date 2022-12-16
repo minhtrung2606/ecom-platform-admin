@@ -7,5 +7,6 @@ ProductV1API.get('/', ProductController.getProducts);
 ProductV1API.post('/new', ProductController.newProduct);
 ProductV1API.patch('/:productPk', ProductController.updateProduct);
 ProductV1API.delete('/', ProductController.deleteProducts);
+ProductV1API.post('/:productPk/add-to-categories', ProductController.addProductToCategories);
 
 export default ProductV1API;

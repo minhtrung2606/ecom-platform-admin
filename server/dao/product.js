@@ -68,7 +68,7 @@ const updateProductByPk = async (pk, product) => BaseDao.exec(
         slug = coalesce(?, slug),
         price = coalesce(?, price),
         unit = coalesce(?, unit),
-        images = coalesce(?, images)
+        images = ?
       where pk = ?
     `;
     const [result] = await conn.execute(
@@ -105,12 +105,50 @@ const deleteProductsByPks = async (pks) => BaseDao.exec(
   },
 );
 
+/**
+ *
+ * @param {number} productPk
+ * @param {array} catPks
+ * @returns
+ */
+const addProductToCategories = async (productPk, catPks) => BaseDao.exec(
+  async (conn) => {
+    const delRelQuery = 'delete from categories_products where productPk = ?';
+
+    const rowsToBeInserted = catPks
+      .map(() => '(?, ?)')
+      .join(',');
+    const insertRelQuery = `
+      insert into categories_products(categoryPk, productPk)
+      values ${rowsToBeInserted}`;
+
+    await conn.beginTransaction();
+    await conn.execute(delRelQuery, [productPk]);
+
+    if (catPks.length !== 0) {
+      await conn.execute(
+        insertRelQuery,
+        catPks.reduce((bindParamValues, catePk) => {
+          return bindParamValues.concat(catePk, productPk);
+        }, []),
+      );
+    }
+
+    await conn.commit();
+    return true;
+  },
+  async (conn) => {
+    await conn.rollback();
+  },
+);
+
 const ProductDao = {
   getProducts,
   getProductByPk,
   newProduct,
   updateProductByPk,
   deleteProductsByPks,
+  addProductToCategories,
 };
 
 export default ProductDao;

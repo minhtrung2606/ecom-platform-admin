@@ -111,9 +111,9 @@ const deleteCategories = async (req, res) => {
     }
 
     const deletingPks = pks.filter(pk => +pk > 0);
-    await CategoryDao.deleteCategoriesByPks(deletingPks);
+    const isSuccess = await CategoryDao.deleteCategoriesByPks(deletingPks);
     res.json({
-      isSuccess: true,
+      isSuccess,
     });
   } catch (e) {
     console.log(e);

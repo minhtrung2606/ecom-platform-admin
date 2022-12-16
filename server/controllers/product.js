@@ -120,9 +120,9 @@ const deleteProducts = async (req, res) => {
     }
 
     const deletingPks = pks.filter(pk => +pk > 0);
-    await ProductDao.deleteProductsByPks(deletingPks);
+    const isSuccess = await ProductDao.deleteProductsByPks(deletingPks);
     res.json({
-      isSuccess: true,
+      isSuccess,
     });
   } catch (e) {
     console.log(e);
@@ -134,11 +134,55 @@ const deleteProducts = async (req, res) => {
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns
+ */
+const addProductToCategories = async (req, res) => {
+  try {
+    const { productPk } = req.params;
+    const { pk, catPks } = req.body;
+
+    if (!catPks) {
+      res.json({
+        isSuccess: false,
+        msg: 'Cannot add given product to given categories',
+      });
+      return;
+    }
+
+    if (+productPk !== +pk) {
+      res.status(422);
+      res.json({
+        isSuccess: false,
+        msg: 'Cannot update given product',
+      });
+      return;
+    }
+
+    const assocCatePks = catPks.filter(pk => +pk > 0);
+    const isSuccess = await ProductDao.addProductToCategories(productPk, assocCatePks);
+    res.json({
+      isSuccess,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500);
+    res.json({
+      isSuccess: false,
+      msg: 'An error occur when adding given product to given categories',
+    });
+  }
+};
+
 const ProductController = {
   getProducts,
   newProduct,
   updateProduct,
   deleteProducts,
+  addProductToCategories,
 };
 
 export default ProductController;
