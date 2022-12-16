@@ -23,6 +23,34 @@ const getCategoryByPk = async (pk) => BaseDao.exec(
   },
 );
 
+/**
+ *
+ * @param {array} pks
+ *
+ * @returns
+ */
+const getCategoriesByProductPks = async (pks) => BaseDao.exec(
+  async (conn) => {
+    const pkArr = DBUtil.generateParamArrayPlaceholder(pks);
+    const query = `
+      select cp.productPk, c.*
+      from categories_products as cp
+        left join categories as c on c.pk = cp.categoryPk
+      where cp.productPk in (${pkArr})
+      order by cp.productPk, c.name`;
+    const [assocCats] = await conn.execute(query, pks);
+    return assocCats.reduce(
+      (catMapping, assocCats) => {
+        return {
+          ...catMapping,
+          [assocCats.productPk]: assocCats,
+        };
+      },
+      {},
+    );
+  },
+);
+
 const newCategory = async () => BaseDao.exec(
   async (conn) => {
     const query = 'insert into categories(name, description, slug) values(?, ?, ?)';
@@ -90,6 +118,7 @@ const deleteCategoriesByPks = async (pks) => BaseDao.exec(
 const CategoryDao = {
   getCategories,
   getCategoryByPk,
+  getCategoriesByProductPks,
   newCategory,
   updateCategoryByPk,
   deleteCategoriesByPks,

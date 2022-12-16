@@ -24,6 +24,14 @@ const getCategories = async (req, res) => {
   }
 };
 
+const getCategoriesByProductPks = async (pks) => {
+  try {
+    return await CategoryDao.getCategoriesByProductPks(pks);
+  } catch (e) {
+    return {};
+  }
+};
+
 /**
  * @param {Request} req
  * @param {Response} res
@@ -127,6 +135,7 @@ const deleteCategories = async (req, res) => {
 
 const CategoryController = {
   getCategories,
+  getCategoriesByProductPks,
   newCategory,
   updateCategory,
   deleteCategories,

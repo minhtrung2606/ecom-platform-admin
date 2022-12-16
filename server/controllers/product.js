@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import ProductDao from '../dao/product';
 import ProductUtil from '../utils/product';
+import CategoryController from './category';
 
 /**
  * @param {Request} req
@@ -10,12 +11,30 @@ import ProductUtil from '../utils/product';
  */
 const getProducts = async (req, res) => {
   try {
+    const { inclCats } = req.query;
     const products = await ProductDao.getProducts();
+
+    let assocCats = {};
+    if (+inclCats === 1) {
+      const productPks = products.map(({ pk }) => pk);
+      assocCats = await CategoryController.getCategoriesByProductPks(productPks);
+    }
+
+    const productsToBeSent = products?.map(
+      product => ({
+        ...ProductUtil.processProductObjectToBeSent(product),
+        rel: {
+          cats: {
+            ...assocCats[product.pk],
+            productPk: undefined, // exclude unused prop
+          },
+        },
+      }),
+    )
+
     res.json({
       isSuccess: true,
-      data: products?.map(
-        product => ProductUtil.processProductObjectToBeSent(product),
-      ),
+      data: productsToBeSent,
     });
   } catch (e) {
     console.log(e);
