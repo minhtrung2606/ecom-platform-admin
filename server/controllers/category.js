@@ -105,12 +105,13 @@ const deleteCategories = async (req, res) => {
     if (!pks || pks.length === 0) {
       res.json({
         isSuccess: false,
-        msg: 'Cannot delete invalid categories',
+        msg: 'Cannot delete given categories',
       });
       return;
     }
 
-    await CategoryDao.deleteCategoriesByPks(pks);
+    const deletingPks = pks.filter(pk => +pk > 0);
+    await CategoryDao.deleteCategoriesByPks(deletingPks);
     res.json({
       isSuccess: true,
     });
