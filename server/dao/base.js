@@ -19,6 +19,10 @@ const exec = (doYourBusiness, handleException) => {
         await handleException(conn, daoExecption);
       }
       reject(daoExecption);
+    } finally {
+      if (conn) {
+        conn.release();
+      }
     }
   });
 };

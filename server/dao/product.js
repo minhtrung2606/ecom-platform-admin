@@ -11,6 +11,27 @@ const getProducts = async () => BaseDao.exec(
 
 /**
  *
+ * @param {string} catSlug
+ * @returns
+ */
+const getProductsByCatSlug = async (catSlug) => BaseDao.exec(
+  async (conn) => {
+    const query = `
+      select p.* from products as p where pk in (
+        select distinct(cp.productPk)
+        from categories_products as cp
+        where cp.categoryPk in (
+          select pk from categories as c
+          where c.slug = ?
+        )
+      )`;
+    const [products] = await conn.execute(query, [catSlug]);
+    return products;
+  },
+);
+
+/**
+ *
  * @param {number} pk
  *
  * @returns
@@ -158,6 +179,7 @@ const addProductToCategories = async (productPk, catPks) => BaseDao.exec(
 
 const ProductDao = {
   getProducts,
+  getProductsByCatSlug,
   getProductByPk,
   getProductBySlug,
   newProduct,
