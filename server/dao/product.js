@@ -23,6 +23,20 @@ const getProductByPk = async (pk) => BaseDao.exec(
   },
 );
 
+/**
+ *
+ * @param {string} slug
+ *
+ * @returns
+ */
+const getProductBySlug = async (slug) => BaseDao.exec(
+  async (conn) => {
+    const query = 'select * from products where slug = ?';
+    const [products] = await conn.execute(query, [slug]);
+    return products[0];
+  },
+);
+
 const newProduct = async () => BaseDao.exec(
   async (conn) => {
     const query = 'insert into products(name, code, slug) values(?, ?, ?)';
@@ -145,6 +159,7 @@ const addProductToCategories = async (productPk, catPks) => BaseDao.exec(
 const ProductDao = {
   getProducts,
   getProductByPk,
+  getProductBySlug,
   newProduct,
   updateProductByPk,
   deleteProductsByPks,

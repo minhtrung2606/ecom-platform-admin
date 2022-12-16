@@ -49,6 +49,35 @@ const getProducts = async (req, res) => {
  *
  * @returns
  */
+const getProductBySlug = async (req, res) => {
+  try {
+    const { productSlug } = req.params;
+    const product = await ProductDao.getProductBySlug(productSlug);
+    const catMapping = await CategoryController.getCategoriesByProductPks([product.pk]);
+    const cats = catMapping[product.pk];
+    res.json({
+      isSuccess: true,
+      data: {
+        ...ProductUtil.processProductObjectToBeSent(product),
+        rel: { cats },
+      },
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500);
+    res.json({
+      isSuccess: false,
+      msg: 'An error occur when getting given product by its slug',
+    });
+  }
+};
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns
+ */
 const newProduct = async (req, res) => {
   try {
     const newlyInsertedPk = await ProductDao.newProduct();
@@ -195,6 +224,7 @@ const addProductToCategories = async (req, res) => {
 
 const ProductController = {
   getProducts,
+  getProductBySlug,
   newProduct,
   updateProduct,
   deleteProducts,
