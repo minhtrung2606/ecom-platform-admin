@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import ProductStatusForm from './ProductStatusForm';
-import ProductValuesMapping from './ProductValuesMapping';
 
 const ProductFormView = ({
   onSubmit = () => {},
@@ -25,7 +24,8 @@ const ProductFormView = ({
       !!unsavedProduct.code &&
       !!unsavedProduct.name &&
       !!unsavedProduct.price &&
-      !!unsavedProduct.status
+      !!unsavedProduct.status &&
+      !!unsavedProduct.slug
     );
   }, [
     asEdit,
@@ -34,6 +34,7 @@ const ProductFormView = ({
     unsavedProduct.name,
     unsavedProduct.price,
     unsavedProduct.status,
+    unsavedProduct.slug,
   ]);
 
   const handleSubmitProductForm = useCallback((e) => {
@@ -81,6 +82,17 @@ const ProductFormView = ({
           className="form-control"
           type="text"
           value={unsavedProduct.name}
+          onChange={handleProductPropChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="product-slug" className="form-label">Slug</label>
+        <input
+          id="product-slug"
+          name="slug"
+          className="form-control"
+          type="text"
+          value={unsavedProduct.slug}
           onChange={handleProductPropChange}
         />
       </div>

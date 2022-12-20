@@ -9,6 +9,7 @@ const editProductLoader = async ({ params }) => {
     name,
     price,
     status,
+    slug,
   } = product;
   return {
     product: {
@@ -17,6 +18,7 @@ const editProductLoader = async ({ params }) => {
       name,
       price,
       status,
+      slug,
     },
   };
 };
