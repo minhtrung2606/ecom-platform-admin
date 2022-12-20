@@ -7,8 +7,8 @@ const ProductListingView = ({
   headers,
   rows,
 }) => {
-  const onDeleteProduct = useCallback((prodId) => {
-    console.log('onDeleteProduct', prodId);
+  const onDeleteProduct = useCallback((prodPk) => {
+    console.log('onDeleteProduct', prodPk);
   }, []);
 
   const CellComp = useCallback(({ row }) => (

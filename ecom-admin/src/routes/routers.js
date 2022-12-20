@@ -55,7 +55,7 @@ const routers = createBrowserRouter([
         ),
       },
       {
-        path: '/product-mgmt/:productId/edit',
+        path: '/product-mgmt/:productPk/edit',
         loader: ProductPageLoaders.editProductLoader,
         element: (
           <SuspendedComp>

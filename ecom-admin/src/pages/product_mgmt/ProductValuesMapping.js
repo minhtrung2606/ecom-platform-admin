@@ -1,8 +1,8 @@
 const ProductValuesMapping = {
   status: {
-    0: 'Draft',
-    '-1': 'Sold out',
-    1: 'Available',
+    Draft: 'Draft',
+    Archived: 'Archived',
+    Published: 'Published',
   },
 };
 

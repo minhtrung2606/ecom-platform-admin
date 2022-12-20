@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const editProductLoader = async ({ params }) => {
-  const resp = await axios.get(`/api/v1/products/${params.productId}`);
+  const resp = await axios.get(`/api/v1/products/${params.productPk}`);
   const { data: product } = resp.data || {};
   const {
-    id,
+    pk,
     code,
     name,
     price,
@@ -12,7 +12,7 @@ const editProductLoader = async ({ params }) => {
   } = product;
   return {
     product: {
-      id,
+      pk,
       code,
       name,
       price,

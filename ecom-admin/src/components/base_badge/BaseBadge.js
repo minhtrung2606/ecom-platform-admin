@@ -2,16 +2,16 @@ import { useCallback } from 'react';
 import './BaseBadge.css';
 
 const BaseBadge = ({
-  id,
+  pk,
   name,
   variant = 'standard',
   removable = false,
   onRemove,
 }) => {
-  const handleRemove = useCallback(() => onRemove(id), [onRemove, id]);
+  const handleRemove = useCallback(() => onRemove(pk), [onRemove, pk]);
 
   return (
-    <span className={`base-badge badge badge-${id} rounded-pill ${variant}`}>
+    <span className={`base-badge badge badge-${pk} rounded-pill ${variant}`}>
       {name}
       {removable && (
         <i

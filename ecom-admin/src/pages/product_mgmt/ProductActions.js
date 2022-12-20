@@ -3,13 +3,13 @@ import BaseNavLink from '../../components/BaseNavLink';
 
 const ProductActions = ({ product, onDeleteProduct }) => {
   const deleteProduct = useCallback(
-    () => onDeleteProduct(product?.id),
-    [product?.id, onDeleteProduct],
+    () => onDeleteProduct(product?.pk),
+    [product?.pk, onDeleteProduct],
   );
   return (
     <>
       <span className="me-3">
-        <BaseNavLink to={`/product-mgmt/${product?.id}/edit`}>
+        <BaseNavLink to={`/product-mgmt/${product?.pk}/edit`}>
           <i class="bi bi-pencil-square text-warning" />
         </BaseNavLink>
       </span>

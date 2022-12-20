@@ -81,7 +81,7 @@ const updateProductByPk = async (pk, product) => BaseDao.exec(
     await conn.beginTransaction();
     await conn.execute(`
       select pk, name, description, code,
-             slug, price, unit, images
+             slug, price, unit, images, status
       from products
       where pk = ? for update`,
       [pk],
@@ -94,6 +94,7 @@ const updateProductByPk = async (pk, product) => BaseDao.exec(
       price,
       unit,
       images,
+      status,
     } = product || {};
     const query = `
       update products
@@ -103,7 +104,8 @@ const updateProductByPk = async (pk, product) => BaseDao.exec(
         slug = coalesce(?, slug),
         price = coalesce(?, price),
         unit = coalesce(?, unit),
-        images = ?
+        images = ?,
+        status = coalesce(?, status)
       where pk = ?
     `;
     const [result] = await conn.execute(
@@ -116,6 +118,7 @@ const updateProductByPk = async (pk, product) => BaseDao.exec(
         DBUtil.processDbBindParamValue(+price),
         DBUtil.processDbBindParamValue(unit),
         DBUtil.processDbBindParamValue(images),
+        DBUtil.processDbBindParamValue(status),
         pk,
       ],
     );

@@ -2,7 +2,7 @@ import { useLoaderData } from 'react-router-dom';
 import ProductListingView from './ProductListingView';
 
 const productListingHeaders = [
-  { name: 'ID', prop: 'id' },
+  { name: 'ID', prop: 'pk' },
   { name: 'Code', prop: 'code' },
   { name: 'Name', prop: 'name' },
   { name: 'Price', prop: 'price' },

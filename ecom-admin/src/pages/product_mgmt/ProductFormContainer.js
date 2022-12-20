@@ -14,16 +14,13 @@ const ProductFormContainer = () => {
 
   const loaderData = useLoaderData();
   const { product } = loaderData || {};
-  const asEdit = useMemo(() => !!product?.id, [product?.id]);
+  const asEdit = useMemo(() => !!product?.pk, [product?.pk]);
 
   const handleSubmit = useCallback(
     product => sendApi({
       method: asEdit ? 'patch' : 'post',
-      apiUrl: `/api/v1/products${asEdit ? `/${product.id}` : ''}`,
-      payload: {
-        ...product,
-        status: +product.status,
-      },
+      apiUrl: `/api/v1/products${asEdit ? `/${product.pk}` : ''}`,
+      payload: { ...product },
     }),
     [sendApi, asEdit],
   );

@@ -23,7 +23,8 @@ const ProductFormView = ({
     return (!asEdit || alreadyChangedAProp) && (
       !!unsavedProduct.code &&
       !!unsavedProduct.name &&
-      !!unsavedProduct.price
+      !!unsavedProduct.price &&
+      !!unsavedProduct.status
     );
   }, [
     asEdit,
@@ -31,6 +32,7 @@ const ProductFormView = ({
     unsavedProduct.code,
     unsavedProduct.name,
     unsavedProduct.price,
+    unsavedProduct.status,
   ]);
 
   const handleSubmitProductForm = useCallback((e) => {
@@ -54,7 +56,7 @@ const ProductFormView = ({
             className="form-control"
             type="text"
             readOnly
-            value={unsavedProduct.id}
+            value={unsavedProduct.pk}
             onChange={handleProductPropChange}
           />
         </div>
@@ -101,40 +103,40 @@ const ProductFormView = ({
               name="status"
               className="form-check-input"
               type="radio"
-              value="0"
-              checked={+unsavedProduct.status === 0}
+              value="Draft"
+              checked={unsavedProduct.status === 'Draft'}
               onChange={handleProductPropChange}
             />
             <label class="form-check-label" htmlFor="product-status-draft">
-              {ProductValuesMapping['status']['0']}
+              {ProductValuesMapping['status']['Draft']}
             </label>
           </div>
           <div class="form-check">
             <input
-              id="product-status-soldout"
+              id="product-status-archived"
               name="status"
               className="form-check-input"
               type="radio"
-              value="-1"
-              checked={+unsavedProduct.status === -1}
+              value="Archived"
+              checked={unsavedProduct.status === 'Archived'}
               onChange={handleProductPropChange}
             />
-            <label class="form-check-label" htmlFor="product-status-soldout">
-              {ProductValuesMapping['status']['-1']}
+            <label class="form-check-label" htmlFor="product-status-archived">
+              {ProductValuesMapping['status']['Archived']}
             </label>
           </div>
           <div class="form-check">
             <input
-              id="product-status-avail"
+              id="product-status-published"
               name="status"
               className="form-check-input"
               type="radio"
-              value="1"
-              checked={+unsavedProduct.status === 1}
+              value="Published"
+              checked={unsavedProduct.status === 'Published'}
               onChange={handleProductPropChange}
             />
-            <label class="form-check-label" htmlFor="product-status-avail">
-              {ProductValuesMapping['status']['1']}
+            <label class="form-check-label" htmlFor="product-status-published">
+              {ProductValuesMapping['status']['Published']}
             </label>
           </div>
         </div>

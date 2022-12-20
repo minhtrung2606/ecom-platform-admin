@@ -8,7 +8,7 @@ const TableRows = ({
   return (
     <tbody>
       {rows.map((row, index) => (
-        <tr key={`${index}-${row.id}`}>
+        <tr key={`${index}-${row.pk}`}>
           {rowProps.map(({ prop, CellComp }, index) => (
             <td key={`${index}-${prop}`}>
               {
