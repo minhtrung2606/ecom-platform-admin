@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import ProductStatusForm from './ProductStatusForm';
 import ProductValuesMapping from './ProductValuesMapping';
 
 const ProductFormView = ({
@@ -95,51 +96,10 @@ const ProductFormView = ({
         />
       </div>
       <div className="mb-3">
-        <label className="form-label">Status</label>
-        <div>
-          <div class="form-check">
-            <input
-              id="product-status-draft"
-              name="status"
-              className="form-check-input"
-              type="radio"
-              value="Draft"
-              checked={unsavedProduct.status === 'Draft'}
-              onChange={handleProductPropChange}
-            />
-            <label class="form-check-label" htmlFor="product-status-draft">
-              {ProductValuesMapping['status']['Draft']}
-            </label>
-          </div>
-          <div class="form-check">
-            <input
-              id="product-status-archived"
-              name="status"
-              className="form-check-input"
-              type="radio"
-              value="Archived"
-              checked={unsavedProduct.status === 'Archived'}
-              onChange={handleProductPropChange}
-            />
-            <label class="form-check-label" htmlFor="product-status-archived">
-              {ProductValuesMapping['status']['Archived']}
-            </label>
-          </div>
-          <div class="form-check">
-            <input
-              id="product-status-published"
-              name="status"
-              className="form-check-input"
-              type="radio"
-              value="Published"
-              checked={unsavedProduct.status === 'Published'}
-              onChange={handleProductPropChange}
-            />
-            <label class="form-check-label" htmlFor="product-status-published">
-              {ProductValuesMapping['status']['Published']}
-            </label>
-          </div>
-        </div>
+        <ProductStatusForm
+          initialStatus={unsavedProduct.status}
+          onChange={handleProductPropChange}
+        />
       </div>
       <div>
         <button
